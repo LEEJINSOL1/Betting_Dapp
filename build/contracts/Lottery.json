@@ -18923,12 +18923,12 @@
     "1735216924768": {
       "events": {},
       "links": {},
-      "address": "0x9561C133DD8580860B6b7E504bC5Aa500f0f06a7",
-      "transactionHash": "0x82ab473a7c1d3556ddc7d501c1cfc2f189b8bfcabe5e028f723298326b515d3d"
+      "address": "0x630589690929E9cdEFDeF0734717a9eF3Ec7Fcfe",
+      "transactionHash": "0x428707aa8d59cf0c06cf317d92c1a507d1f70bb8b0dcd2db13922f300a61b0ba"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-12-26T12:44:39.084Z",
+  "updatedAt": "2024-12-26T13:30:06.619Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

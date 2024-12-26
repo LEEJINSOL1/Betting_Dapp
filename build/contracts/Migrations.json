@@ -1972,12 +1972,12 @@
     "1735216924768": {
       "events": {},
       "links": {},
-      "address": "0xC89Ce4735882C9F0f0FE26686c53074E09B0D550",
-      "transactionHash": "0x871a346dcbcebda1b5d9bb22d2fff362bc99e21351475a600c53b1f3c1fdeb45"
+      "address": "0xA57B8a5584442B467b4689F1144D269d096A3daF",
+      "transactionHash": "0xd186990ab45d72ae4842c48460cdbd7cad9691a5614027c394ed3222747fbfc1"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-12-26T12:44:39.097Z",
+  "updatedAt": "2024-12-26T13:30:06.633Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
