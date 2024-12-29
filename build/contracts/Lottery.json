@@ -220,8 +220,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -234,8 +233,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -248,8 +246,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -278,8 +275,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -336,8 +332,7 @@
         }
       ],
       "stateMutability": "payable",
-      "type": "function",
-      "payable": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -356,8 +351,7 @@
         }
       ],
       "stateMutability": "payable",
-      "type": "function",
-      "payable": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -407,8 +401,7 @@
         }
       ],
       "stateMutability": "pure",
-      "type": "function",
-      "constant": true
+      "type": "function"
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.13+commit.abaa5c0e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"bettor\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"challenges\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"answerBlockNumber\",\"type\":\"uint256\"}],\"name\":\"BET\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"bettor\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"challenges\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"bytes1\",\"name\":\"answer\",\"type\":\"bytes1\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"answerBlockNumber\",\"type\":\"uint256\"}],\"name\":\"DRAW\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"bettor\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"challenges\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"bytes1\",\"name\":\"answer\",\"type\":\"bytes1\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"answerBlockNumber\",\"type\":\"uint256\"}],\"name\":\"FAIL\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"bettor\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"challenges\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"answerBlockNumber\",\"type\":\"uint256\"}],\"name\":\"REFUND\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"bettor\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"challenges\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"bytes1\",\"name\":\"answer\",\"type\":\"bytes1\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"answerBlockNumber\",\"type\":\"uint256\"}],\"name\":\"WIN\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"answerForTest\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"challenges\",\"type\":\"bytes\"}],\"name\":\"bet\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"result\",\"type\":\"bool\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"challenges\",\"type\":\"bytes\"}],\"name\":\"betAndDistribute\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"result\",\"type\":\"bool\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"distribute\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"getBetInfo\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"answerBlockNumber\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"bettor\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"challenges\",\"type\":\"bytes\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getPot\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"pot\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"challenges\",\"type\":\"bytes\"},{\"internalType\":\"bytes32\",\"name\":\"answer\",\"type\":\"bytes32\"}],\"name\":\"isMatch\",\"outputs\":[{\"internalType\":\"enum Lottery.BettingResult\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address payable\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"popBet\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"challenges\",\"type\":\"bytes\"}],\"name\":\"pushBet\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"answer\",\"type\":\"bytes32\"}],\"name\":\"setAnswerForTest\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"result\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"bet(bytes)\":{\"details\":\"\\ubc30\\ud305\\uc744\\ud55c\\ub2e4. \\uc720\\uc800\\ub294 0.005ETH\\ub97c \\ubcf4\\ub0b4\\uc57c\\ud558\\uace0, \\ubc30\\ud305\\uc6a9 1byte\\uae00\\uc790\\ub97c \\ubcf4\\ub0b8\\ub2e4. \\ud050\\uc5d0 \\uc800\\uc7a5\\ub41c \\ubc30\\ud305 \\uc815\\ubcf4\\ub294 \\uc774\\ud6c4 distribute \\ud568\\uc218\\uc5d0\\uc11c \\ud574\\uacb0\\ub41c\\ub2e4.\",\"params\":{\"challenges\":\"\\uc720\\uc800\\uac00 \\uc815\\ub2f5\\uc744 \\ubcf4\\ub0b4\\ub294 1byte\\uae00\\uc790\"},\"returns\":{\"result\":\"\\ud568\\uc218\\uac00 \\uc798 \\uc218\\ud589\\ub418\\uc5c8\\ub294\\uc9c0 \\ud655\\uc778\\ud558\\ub294 bool \\uac12\"}},\"betAndDistribute(bytes)\":{\"details\":\"\\ubc30\\ud305\\uacfc \\uc815\\ub2f5 \\uccb4\\ud06c\\ub97c \\ud55c\\ub2e4. \\uc878\\ub9ac\\ub2e4...\",\"params\":{\"challenges\":\"\\uc720\\uc800\\uac00 \\ubc30\\ud305\\ud558\\ub294 \\uae00\\uc790 \"},\"returns\":{\"result\":\" \\ud568\\uc218\\uac00 \\uc798 \\uc218\\ud589\\ub418\\uc5c8\\ub294\\uc9c0 \\ud655\\uc778\\ud558\\ub294 bool\\uac12 \"}},\"distribute()\":{\"details\":\"\\ubc30\\ud305\\uacb0\\uacfc\\uac12\\uc744 \\ud655\\uc778 \\ud558\\uace0 \\ud31f\\uba38\\ub2c8\\ub97c \\ubd84\\ubc30\\ud55c\\ub2e4.  \\uc815\\ub2f5 \\uc2e4\\ud328 : \\ud31f\\uba38\\ub2c8 \\ucd95\\uc801, \\uc815\\ub2f5 \\ub9de\\ucda4 : \\ud31f\\uba38\\ub2c8 \\ud68d\\ub4f1, \\ud55c\\uae00\\uc790 \\ub9de\\ucda4, \\uc815\\ub2f5\\ud655\\uc778\\ubd88\\uac00 : \\ubc30\\ud2cd\\uae08\\uc561\\ub9cc \\ud68d\\ub4dd, \"},\"isMatch(bytes,bytes32)\":{\"details\":\"\\ubc30\\ud305\\uae00\\uc790\\uc640 \\uc815\\ub2f5\\uc744 \\ud655\\uc778\\ub2e8\\ub2e4\",\"params\":{\"answer\":\"\\ube14\\ub77d\\ud574\\uc26c\",\"challenges\":\"\\ubc30\\ud305\\uae00\\uc790\"},\"returns\":{\"_0\":\"\\uc815\\ub2f5\\uacb0\\uacfc \"}}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Lottery.sol\":\"Lottery\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Lottery.sol\":{\"keccak256\":\"0x67ccb4ea859f291ee4186251b656a00f32edf2285704fd93f8ad328bbe80d77f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://04648001176ed1c43cf8594b677a85282281a6199272c4e2a73f398bc589c860\",\"dweb:/ipfs/QmbyvmH9AhqUCcTyHzbM6WtsLSsr3uUeY5FVkvSpw9K8Dv\"]}},\"version\":1}",
@@ -18925,11 +18918,16 @@
       "links": {},
       "address": "0x630589690929E9cdEFDeF0734717a9eF3Ec7Fcfe",
       "transactionHash": "0x428707aa8d59cf0c06cf317d92c1a507d1f70bb8b0dcd2db13922f300a61b0ba"
+    },
+    "1735476338509": {
+      "events": {},
+      "links": {},
+      "address": "0xC89C4883D9206f011cC10AeB06558845BCe8Ddfd",
+      "transactionHash": "0xe19bb05c227873f2dd2fe7e5123fc2c48f9c3b5217fd91a84eb3a4cbc65d8255"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-12-26T13:30:06.619Z",
-  "networkType": "ethereum",
+  "updatedAt": "2024-12-29T13:15:34.929Z",
   "devdoc": {
     "kind": "dev",
     "methods": {
