@@ -18,7 +18,10 @@ $ npm install -g truffle@5.11.5
 $ npm install web3@1.10.0
 ```
 
-Main
+Run
 ```
-$ Test
+$ ganache-cli -d -m tutorial
+$ truffle console
+$ truffle compile
+$ truffle migrate / truffle migrate --reset
 ```
