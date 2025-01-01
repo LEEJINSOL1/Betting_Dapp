@@ -18,8 +18,7 @@ $ npm install -g truffle@5.11.5
 $ npm install web3@1.10.0
 ```
 
-In project directory, terminal 2
+Main
 ```
-$ npm install
-$ truffle test
+$ Test
 ```
