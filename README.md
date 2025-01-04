@@ -1,5 +1,5 @@
 # Betting_Dapp
-Betting_Dapp
+Solidity SmartContract(Betting_Dapp) & React
 
 
 
