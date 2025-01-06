@@ -4,7 +4,7 @@ Solidity SmartContract(Betting_Dapp) & React
 
 
 ## Setup &
-In terminal 1
+Setup
 ```
 Node     : 20.18.1 
 Truffle  : 5.11.5
