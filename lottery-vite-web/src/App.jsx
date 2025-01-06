@@ -3,8 +3,9 @@ import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
 import Web3 from 'web3';
-                    //0xC89C4883D9206f011cC10AeB06558845BCe8Ddfd
-let lotteryAddress = '0xC89C4883D9206f011cC10AeB06558845BCe8Ddfd';
+
+
+let lotteryAddress = '0x9561C133DD8580860B6b7E504bC5Aa500f0f06a7';
 let lotteryABI = [
   {
     "inputs": [],
@@ -420,11 +421,11 @@ let lotteryABI = [
 
 function App() {
   const [count, setCount] = useState(0);
-
+  
 
   // Web3 초기화 함수
   const initWeb3 = async () => {
-    let web3
+    let web3;
     if (window.ethereum) {
       web3 = new Web3(window.ethereum);
       try {
@@ -438,40 +439,79 @@ function App() {
       console.error('No Ethereum browser extension detected, install MetaMask!');
     }
 
+    // Web3 인스턴스를 통해 스마트 컨트랙트 정보 호출
     const accounts = await web3.eth.getAccounts();
     let account = accounts[0];
 
     const lotteryContract = new web3.eth.Contract(lotteryABI, lotteryAddress);
-    let pot = await lotteryContract.methods.getPot().call() //call 블록체인 스마트컨트랙트의 값을 변화시키지않고 부르는것 
-    console.log('pot : ' , pot)
+    let pot = await lotteryContract.methods.getPot().call();
+    console.log('pot:', pot);
 
-    let owner = await lotteryContract.methods.owner().call() //call 블록체인 스마트컨트랙트의 값을 변화시키지않고 부르는것 
-    console.log('owner : ' ,owner);
-
+    let owner = await lotteryContract.methods.owner().call();
+    console.log('owner:', owner);
   };
 
+  // bet 함수
+  const bet = async () => {
+    let web3;
+    if (window.ethereum) {
+      web3 = new Web3(window.ethereum);
+      try {
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        //console.log('Web3 initialized:', web3);
+      } catch (error) {
+        console.error('User denied wallet access', error);
+      }
+    } else {
+      console.error('No Ethereum browser extension detected, install MetaMask!');
+    }
 
-
-  const fetchAccountsBalnce = async() =>{
-    const web3 = new Web3(window.ethereum);
     const accounts = await web3.eth.getAccounts();
+    let account = accounts[0];
+    let nonce = await web3.eth.getTransactionCount(account)
 
-    let balance = await web3.eth.getBalance(accounts[0]);
-    console.log(balance);
+    const lotteryContract = new web3.eth.Contract(lotteryABI, lotteryAddress);
+    let receipt = await lotteryContract.methods.betAndDistribute('0xab').send({
+      from: account,
+      value: 5000000000000000,
+      gas: 300000,
+      gasPrice: 2000000000,
+      nonce:nonce
+    });
+    console.log("Receipt:", receipt);
+  };
+
+  const getBetEvent = async() =>{
+    const records = [];
+    let web3;
+    if (window.ethereum) {
+      web3 = new Web3(window.ethereum);
+      try {
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        //console.log('Web3 initialized:', web3);
+      } catch (error) {
+        console.error('User denied wallet access', error);
+      }
+    } else {
+      console.error('No Ethereum browser extension detected, install MetaMask!');
+    }
+    const lotteryContract = new web3.eth.Contract(lotteryABI, lotteryAddress);
+
+    let events = await lotteryContract.getPastEvents('BET',{fromBlock:0, toBlock:'latest'});
+    console.log("events : " , events)
+
   }
 
-  const fetchAccounts = async() =>{
-    const web3 = new Web3(window.ethereum);
-    const accounts = await web3.eth.getAccounts();
-    console.log("Accounts : ", accounts);
-  };
   // 컴포넌트가 처음 렌더링될 때 Web3 초기화
   useEffect(() => {
-    initWeb3(); //지갑연결 
+    const init = async () => {
+      await initWeb3(); // Web3 초기화가 완료될 때까지 기다림
+      await bet();  // bet 함수 호출 (Web3 초기화가 완료된 후)
+      await getBetEvent();
+    };
 
-    //fetchAccounts(); //메타마스크 연결된 계좌주소 출력
-    //fetchAccountsBalnce(); //메타마스크의 연결된 계좌잔액 출력
-  }, []);
+    init();  // 비동기 함수 호출
+  }, []);  // 빈 배열로 한 번만 실행되도록 설정
 
   return (
     <>
