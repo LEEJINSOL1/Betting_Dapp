@@ -1986,10 +1986,16 @@
       "links": {},
       "address": "0xC89Ce4735882C9F0f0FE26686c53074E09B0D550",
       "transactionHash": "0x871a346dcbcebda1b5d9bb22d2fff362bc99e21351475a600c53b1f3c1fdeb45"
+    },
+    "1736166585088": {
+      "events": {},
+      "links": {},
+      "address": "0xC89Ce4735882C9F0f0FE26686c53074E09B0D550",
+      "transactionHash": "0x871a346dcbcebda1b5d9bb22d2fff362bc99e21351475a600c53b1f3c1fdeb45"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-01-05T07:50:48.614Z",
+  "updatedAt": "2025-01-06T12:36:31.534Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

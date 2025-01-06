@@ -420,15 +420,31 @@ let lotteryABI = [
 
 
 function App() {
-  const [count, setCount] = useState(0);
+    // 상태 선언
+    const [count, setCount] = useState(0);
+    const [betRecords, setBetRecords] = useState([]);
+    const [winRecords, setWinRecords] = useState([]);
+    const [failRecords, setFailRecords] = useState([]);
+    const [pot, setPot] = useState("0");
+    const [challengs, setChallengs] = useState(["A", "B"]);
+    const [finalRecords, setFinalRecords] = useState([
+      {
+        bettor: "0xabcd...",
+        index: "0",
+        challengs: "ab",
+        answer: "ab",
+        targetBlockNumber: "10",
+        pot: "0",
+      },
+    ]);
   
-
   // Web3 초기화 함수
   const initWeb3 = async () => {
     let web3;
     if (window.ethereum) {
       web3 = new Web3(window.ethereum);
       try {
+
         // 사용자로부터 지갑 연결 요청
         await window.ethereum.request({ method: 'eth_requestAccounts' });
         console.log('Web3 initialized:', web3);
@@ -502,9 +518,12 @@ function App() {
 
   }
 
+
+
   // 컴포넌트가 처음 렌더링될 때 Web3 초기화
   useEffect(() => {
     const init = async () => {
+      
       await initWeb3(); // Web3 초기화가 완료될 때까지 기다림
       await bet();  // bet 함수 호출 (Web3 초기화가 완료된 후)
       await getBetEvent();
@@ -513,30 +532,112 @@ function App() {
     init();  // 비동기 함수 호출
   }, []);  // 빈 배열로 한 번만 실행되도록 설정
 
+  //Pot money 확인
+
+  // bet button 
+
+  // bet 글자 선택 ui(버튼)
+
+  // history table(index, address, challenge answer pot  status answerblocknumber) 
+
+  
   return (
+    
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    
+      <div className='App'>
+        
+       
+
+          {/* Header - pot , betting characters  */}
+          <h1>Current Pot : {pot}</h1>
+          <h1>Lottery</h1>
+          <p>Lottery tutorial</p>
+          <p>Your Bet</p>
+          <p>{challengs[0]} , {challengs[1]}</p>
+
+        <div className='container'>
+          <div className='card-group'>
+
+          <button className='card bg-primary'>
+              <div className='card-body text-center'>
+                <p className='card-text'></p>
+                <p className='card-text text-center'>A</p>
+                <p className='card-text'></p>
+              </div>
+            </button>   
+
+
+            <button className='card bg-warning'>
+              <div className='card-body text-center'>
+                <p className='card-text'></p>
+                <p className='card-text text-center'>B</p>
+                <p className='card-text'></p>
+              </div>
+            </button>   
+
+            <button className='card bg-danger'>
+              <div className='card-body text-center'>
+                <p className='card-text'></p>
+                <p className='card-text text-center'>C</p>
+                <p className='card-text'></p>
+              </div>
+            </button>   
+
+            <button className='btn card bg-success'>
+              <div className='card-body text-center'>
+                <p className='card-text'></p>
+                <p className='card-text text-center'>C</p>
+                <p className='card-text'></p>
+              </div>
+            </button>   
+
+                
+          </div>
+        </div>        
+      <br></br>
+
+      <div className='container'>
+        <button className='btn btn-danger btn-lg'>BET!</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+
+
+      <br></br>
+      <div className='container'>
+        <table className='table table-dark table-striped'>
+          <thead>
+            <tr>
+              <th>Index</th>
+              <th>Address</th>
+              <th>Challenge</th>
+              <th>Answer</th>
+              <th>Pot</th>
+              <th>Status</th>
+              <th>AnswerBlockNumber</th>
+            </tr>
+          </thead>
+          <tbody>
+            {finalRecords.map((record, index) => (
+              <tr key={index}>
+                <td>{record.index}</td>
+                <td>{record.bettor}</td>
+                <td>{record.challengs}</td>
+                <td>{record.answer}</td>
+                <td>{record.pot}</td>
+                <td>{record.status || "Pending"}</td>
+                <td>{record.targetBlockNumber}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      </div>
+    
+    
     </>
   );
 }
+
 
 export default App;
