@@ -1,7 +1,6 @@
 # Betting_Dapp
 Solidity SmartContract(Betting_Dapp) & React
-
-
+Fuxx......
 
 ## Setup &
 Setup
