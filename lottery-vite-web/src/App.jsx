@@ -421,25 +421,21 @@ let lotteryABI = [
 
 function App() {
     // 상태 선언
-    const [count, setCount] = useState(0);
+    
+    let [account_globalVariable, setAccount_globalVariable] = useState([]);
+    let [lotteryContract_globalVariable,setLotteryContract_globalVariable] = useState([]);
+    let [web4, setWeb4] = useState([]);
+    let [count, setCount] = useState(0);
     const [betRecords, setBetRecords] = useState([]);
     const [winRecords, setWinRecords] = useState([]);
     const [failRecords, setFailRecords] = useState([]);
-    const [pot, setPot] = useState("0");
-    const [challengs, setChallengs] = useState(["A", "B"]);
-    const [finalRecords, setFinalRecords] = useState([
-      {
-        bettor: "0xabcd...",
-        index: "0",
-        challengs: "ab",
-        answer: "ab",
-        targetBlockNumber: "10",
-        pot: "0",
-      },
-    ]);
+    let [pot, setPot] = useState("0");
+    let [challengs, setChallengs] = useState(["A", "B"]);
+    let [finalRecords, setFinalRecords] = useState([]);
+    let [global_web3, setGlobal_web3] = useState([]);
+ 
   
-  // Web3 초기화 함수
-  const initWeb3 = async () => {
+  const getPot_ = async() =>{
     let web3;
     if (window.ethereum) {
       web3 = new Web3(window.ethereum);
@@ -447,7 +443,29 @@ function App() {
 
         // 사용자로부터 지갑 연결 요청
         await window.ethereum.request({ method: 'eth_requestAccounts' });
-        console.log('Web3 initialized:', web3);
+        //console.log('Web3 initialized:', web3);
+      } catch (error) {
+        //console.error('User denied wallet access', error);
+      }
+    } else {
+      //console.error('No Ethereum browser extension detected, install MetaMask!');
+    }
+    const lotteryContract = new web3.eth.Contract(lotteryABI, lotteryAddress);
+    let pot = await lotteryContract.methods.getPot().call();
+    //console.log("pot : ", pot)
+    let potString = web3.utils.fromWei(pot.toString(), 'ether');
+    setPot(potString);
+  };
+
+  // Web3 초기화 함수
+  const initWeb3 = async () => {
+    let web3;
+    if (window.ethereum) {
+      web3 = new Web3(window.ethereum);
+      try {
+        // 사용자로부터 지갑 연결 요청
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        //console.log('Web3 initialized:', web3);
       } catch (error) {
         console.error('User denied wallet access', error);
       }
@@ -457,14 +475,20 @@ function App() {
 
     // Web3 인스턴스를 통해 스마트 컨트랙트 정보 호출
     const accounts = await web3.eth.getAccounts();
+    const lotteryContract = new web3.eth.Contract(lotteryABI, lotteryAddress);
+
     let account = accounts[0];
 
-    const lotteryContract = new web3.eth.Contract(lotteryABI, lotteryAddress);
     let pot = await lotteryContract.methods.getPot().call();
-    console.log('pot:', pot);
+    //console.log('pot:', pot);
 
     let owner = await lotteryContract.methods.owner().call();
-    console.log('owner:', owner);
+    //console.log('owner:', owner);
+    //console.log("lottey ", lotteryContract)
+    //console.log("lottey ", )
+    
+    setLotteryContract_globalVariable(lotteryContract);
+    setGlobal_web3(web3);
   };
 
   // bet 함수
@@ -487,50 +511,177 @@ function App() {
     let nonce = await web3.eth.getTransactionCount(account)
 
     const lotteryContract = new web3.eth.Contract(lotteryABI, lotteryAddress);
-    let receipt = await lotteryContract.methods.betAndDistribute('0xab').send({
+
+    let challenge = '0x' + challengs[0].toLowerCase() + challengs[1].toLowerCase();
+
+    let receipt = await lotteryContract.methods.betAndDistribute(challenge).send({
       from: account,
       value: 5000000000000000,
       gas: 300000,
       gasPrice: 2000000000,
       nonce:nonce
-    });
-    console.log("Receipt:", receipt);
+    }).on('transactionHash', (hash) =>{
+      console.log(hash)
+    })
   };
 
-  const getBetEvent = async() =>{
-    const records = [];
+  const getBetEvents = async () => {
     let web3;
     if (window.ethereum) {
       web3 = new Web3(window.ethereum);
       try {
+        // 사용자로부터 지갑 연결 요청
         await window.ethereum.request({ method: 'eth_requestAccounts' });
         //console.log('Web3 initialized:', web3);
       } catch (error) {
-        console.error('User denied wallet access', error);
+        //console.error('User denied wallet access', error);
       }
     } else {
       console.error('No Ethereum browser extension detected, install MetaMask!');
     }
+
+    // Web3 인스턴스를 통해 스마트 컨트랙트 정보 호출
+    const accounts = await web3.eth.getAccounts();
     const lotteryContract = new web3.eth.Contract(lotteryABI, lotteryAddress);
 
-    let events = await lotteryContract.getPastEvents('BET',{fromBlock:0, toBlock:'latest'});
-    console.log("events : " , events)
+    const records = [];
+    let events = await lotteryContract.getPastEvents('BET', {fromBlock:0, toBlock:'latest'});
+    
+    for(let i=0;i<events.length;i+=1){
+      const record = {}
+      record.index = parseInt(events[i].returnValues.index, 10).toString();
+      record.bettor = events[i].returnValues.bettor.slice(0,4) + '...' + events[i].returnValues.bettor.slice(40,42);
+      record.betBlockNumber = events[i].blockNumber;
+      record.targetBlockNumber = events[i].returnValues.answerBlockNumber.toString();
+      record.challenges = events[i].returnValues.challenges;
+      record.win = 'Not Revealed';
+      record.answer = '0x00';
+      records.unshift(record);
+    }
+    console.log("bet : ", records)
+    setBetRecords(records);
+  }
+  const getFailEvents = async () => {
+    console.log("fail ")
+    let web3;
+    if (window.ethereum) {
+      web3 = new Web3(window.ethereum);
+      try {
+        // 사용자로부터 지갑 연결 요청
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        //console.log('Web3 initialized:', web3);
+      } catch (error) {
+        //console.error('User denied wallet access', error);
+      }
+    } else {
+      console.error('No Ethereum browser extension detected, install MetaMask!');
+    }
 
+    // Web3 인스턴스를 통해 스마트 컨트랙트 정보 호출
+    const accounts = await web3.eth.getAccounts();
+    const lotteryContract = new web3.eth.Contract(lotteryABI, lotteryAddress);
+
+    const records = [];
+    let events = await lotteryContract.getPastEvents('FAIL', {fromBlock:0, toBlock:'latest'});
+    
+    for(let i=0;i<events.length;i+=1){
+      const record = {}
+      record.index = parseInt(events[i].returnValues.index, 10).toString();
+      record.answer = events[i].returnValues.answer;
+      records.unshift(record);
+    }
+    //console.log(records);
+    setFailRecords(records)
+    console.log("fail : " , records)
   }
 
+  const getWinEvents = async () => {
+    //console.log("win")
+    let web3;
+    if (window.ethereum) {
+      web3 = new Web3(window.ethereum);
+      try {
+        // 사용자로부터 지갑 연결 요청
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        //console.log('Web3 initialized:', web3);
+      } catch (error) {
+        //console.error('User denied wallet access', error);
+      }
+    } else {
+      console.error('No Ethereum browser extension detected, install MetaMask!');
+    }
+
+    // Web3 인스턴스를 통해 스마트 컨트랙트 정보 호출
+    const accounts = await web3.eth.getAccounts();
+    const lotteryContract = new web3.eth.Contract(lotteryABI, lotteryAddress);
+
+    const records = [];
+    let events = await lotteryContract.getPastEvents('WIN', {fromBlock:0, toBlock:'latest'});
+    
+    for(let i=0;i<events.length;i+=1){
+      const record = {}
+      record.index = parseInt(events[i].returnValues.index, 10).toString();
+      record.amount = parseInt(events[i].returnValues.amount, 10).toString();
+      records.unshift(record);
+    }
+    setWinRecords(records)
+    console.log("win : ", records)
+  }
+
+  const makeFinalRecords = () => {
+    console.log("betbet : " ,betRecords)
+    console.log("winwin : ", winRecords)
+    console.log("failfail : " , failRecords);
+    if (!betRecords || !betRecords.length) return; // betRecords가 비어 있으면 실행하지 않음
+    
+    let f = 0, w = 0;
+    let records = [...betRecords]; // betRecords 복사
+    for (let i = 0; i < betRecords.length; i++) {
+      if (winRecords.length > 0 && betRecords[i].index === winRecords[w]?.index) {
+        records[i].win = 'WIN';
+        records[i].answer = records[i].challenges;
+        records[i].pot = global_web3.utils.fromWei(winRecords[w].amount, 'ether');
+        if (winRecords.length - 1 > w) w++;
+      } else if (failRecords.length > 0 && betRecords[i].index === failRecords[f]?.index) {
+        records[i].win = 'FAIL';
+        records[i].answer = failRecords[f].answer;
+        records[i].pot = 0;
+        if (failRecords.length - 1 > f) f++;
+      } else {
+        records[i].answer = 'Not Revealed';
+      }
+    }
+    setFinalRecords(records);
+    //console.log(records);
+      
+  };
 
 
-  // 컴포넌트가 처음 렌더링될 때 Web3 초기화
   useEffect(() => {
     const init = async () => {
-      
-      await initWeb3(); // Web3 초기화가 완료될 때까지 기다림
-      await bet();  // bet 함수 호출 (Web3 초기화가 완료된 후)
-      await getBetEvent();
+      await initWeb3();
     };
+  
+    const pollData = async () => {
+      await getPot_();
+      await getBetEvents();
+      await getWinEvents();
+      await getFailEvents();
+  
+      // 상태 업데이트가 완료된 후에 makeFinalRecords 호출
+      setTimeout(() => {
+        makeFinalRecords();
+      }, 5000); // 500ms 정도 기다린 후 makeFinalRecords 호출
+    };
+  
+    init();
+    const intervalId = setInterval(() => {
+      pollData();
+    }, 5000); // 5000ms = 5초
+  }, []); // 컴포넌트가 처음 렌더링될 때만 실행
+  
 
-    init();  // 비동기 함수 호출
-  }, []);  // 빈 배열로 한 번만 실행되도록 설정
+
 
   //Pot money 확인
 
@@ -554,12 +705,15 @@ function App() {
           <h1>Lottery</h1>
           <p>Lottery tutorial</p>
           <p>Your Bet</p>
-          <p>{challengs[0]} , {challengs[1]}</p>
+          <p>{challengs[0]} / {challengs[1]}</p>
 
         <div className='container'>
           <div className='card-group'>
 
-          <button className='card bg-primary'>
+          <button className='card bg-primary' onClick={() =>{
+            let newChallengs = [challengs[1], "A"]
+            setChallengs(newChallengs);
+          }}>
               <div className='card-body text-center'>
                 <p className='card-text'></p>
                 <p className='card-text text-center'>A</p>
@@ -568,7 +722,12 @@ function App() {
             </button>   
 
 
-            <button className='card bg-warning'>
+            <button className='card bg-warning' onClick={() =>{
+              let newChallengs = [challengs[1],'B']
+              
+              setChallengs(newChallengs);
+              
+            }}>
               <div className='card-body text-center'>
                 <p className='card-text'></p>
                 <p className='card-text text-center'>B</p>
@@ -576,7 +735,10 @@ function App() {
               </div>
             </button>   
 
-            <button className='card bg-danger'>
+            <button className='card bg-danger' onClick={() =>{
+              let newChallengs = [challengs[1], "C"]
+              setChallengs(newChallengs);
+            }}>
               <div className='card-body text-center'>
                 <p className='card-text'></p>
                 <p className='card-text text-center'>C</p>
@@ -584,12 +746,15 @@ function App() {
               </div>
             </button>   
 
-            <button className='btn card bg-success'>
+            <button className='btn card bg-success' onClick={() =>{
+              let newChallengs = [challengs[1], "D"]
+              setChallengs(newChallengs);
+            }}>
               <div className='card-body text-center'>
                 <p className='card-text'></p>
-                <p className='card-text text-center'>C</p>
+                <p className='card-text text-center'>D</p>
                 <p className='card-text'></p>
-              </div>
+              </div> 
             </button>   
 
                 
@@ -598,7 +763,7 @@ function App() {
       <br></br>
 
       <div className='container'>
-        <button className='btn btn-danger btn-lg'>BET!</button>
+        <button className='btn btn-danger btn-lg' onClick={bet}>BET!</button>
       </div>
 
 
@@ -617,24 +782,26 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {finalRecords.map((record, index) => (
+            {finalRecords.map((record, index) => { 
+              return (
               <tr key={index}>
                 <td>{record.index}</td>
                 <td>{record.bettor}</td>
-                <td>{record.challengs}</td>
+                <td>{record.challenges}</td>
                 <td>{record.answer}</td>
                 <td>{record.pot}</td>
-                <td>{record.status || "Pending"}</td>
+                <td>{record.win}</td>
                 <td>{record.targetBlockNumber}</td>
               </tr>
-            ))}
+            )
+          }) 
+          }
           </tbody>
         </table>
       </div>
 
       </div>
-    
-    
+     
     </>
   );
 }
